@@ -255,7 +255,7 @@ kernel void copy(const device float *A[[buffer(0)]],
         height: 1,
         depth: 1,
     }, {
-        width: 1024,
+        width: 8,
         height: 1,
         depth: 1,
     });
