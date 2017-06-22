@@ -5,14 +5,15 @@ import { registerTest } from "./playground";
 registerTest('browser_support', async playground => {
     let isWebGPUSupported = 'WebGPURenderingContext' in window;
     playground.print(`('WebGPURenderingContext' in window) == ${isWebGPUSupported}`);
-    if (!isWebGPUSupported) throw new Error('WebGPU is not supported.');
 
     let isComputePipelineState = 'WebGPUComputePipelineState' in window;
     playground.print(`('WebGPUComputePipelineState' in window) == ${isComputePipelineState}`);
-    if (!isComputePipelineState) throw new Error('WebGPUComputePipelineState is not supported.');
 
     let isComputeCommandEncoder = 'WebGPUComputeCommandEncoder' in window;
     playground.print(`('WebGPUComputeCommandEncoder' in window) == ${isComputeCommandEncoder}`);
+
+    if (!isWebGPUSupported) throw new Error('WebGPU is not supported.');
+    if (!isComputePipelineState) throw new Error('WebGPUComputePipelineState is not supported.');
     if (!isComputeCommandEncoder) throw new Error('isComputeCommandEncoder is not supported.');
 });
 
@@ -108,19 +109,123 @@ kernel void copy(const device float *A[[buffer(0)]],
     return promise;
 });
 
-registerTest('thread_position_qualifier', async playground => {
+registerTest('thread_position_qualifier1', async playground => {
     let webgpu = document.createElement('canvas').getContext('webgpu');
     if (!webgpu) throw new Error('WebGPURenderingContext initialization failed.');
 
-    //language=cpp
     let library = webgpu.createLibrary(`
 #include <metal_stdlib>
 using namespace metal;
 
-kernel void copy(const device float *A[[buffer(0)]], 
+kernel void copy(device float *A[[buffer(0)]],
+                 uint3 thread_position_in_grid[[thread_position_in_grid]],
+                 uint3 thread_position_in_threadgroup[[thread_position_in_threadgroup]],
+                 uint thread_index_in_threadgroup[[thread_index_in_threadgroup]],
+                 uint3 threadgroup_position_in_grid[[threadgroup_position_in_grid]],
+                 uint3 threads_per_grid[[threads_per_grid]],
+                 uint3 threads_per_threadgroup[[threads_per_threadgroup]],
+                 uint3 threadgroups_per_grid[[threadgroups_per_grid]],
+                 uint thread_execution_width[[thread_execution_width]])
+{
+    if (thread_position_in_grid[0] != 2*5-1 ||
+        thread_position_in_grid[1] != 3*6-1 ||
+        thread_position_in_grid[2] != 4*7-1) return;
+    
+    A[0] = thread_position_in_grid[0];
+    A[1] = thread_position_in_grid[1];
+    A[2] = thread_position_in_grid[2];
+    A[3] = thread_position_in_threadgroup[0];
+    A[4] = thread_position_in_threadgroup[1];
+    A[5] = thread_position_in_threadgroup[2];
+    A[6] = thread_index_in_threadgroup;
+    A[7] = threadgroup_position_in_grid[0];
+    A[8] = threadgroup_position_in_grid[1];
+    A[9] = threadgroup_position_in_grid[2];
+    A[10] = threads_per_grid[0];
+    A[11] = threads_per_grid[1];
+    A[12] = threads_per_grid[2];
+    A[13] = threads_per_threadgroup[0];
+    A[14] = threads_per_threadgroup[1];
+    A[15] = threads_per_threadgroup[2];
+    A[16] = threadgroups_per_grid[0];
+    A[17] = threadgroups_per_grid[1];
+    A[18] = threadgroups_per_grid[2];
+    A[19] = thread_execution_width;
+}
+`);
+    let pipelineState = webgpu.createComputePipelineState(library.functionWithName('copy'));
+
+    let commandQueue = webgpu.createCommandQueue();
+    let commandBuffer = commandQueue.createCommandBuffer();
+
+    let A = new Float32Array(20);
+    for (let i = 0; i < 20; i++) A[i] = 0;
+
+    let ABuffer = webgpu.createBuffer(A);
+
+    let commandEncoder = commandBuffer.createComputeCommandEncoder();
+
+    commandEncoder.setComputePipelineState(pipelineState);
+    commandEncoder.setBuffer(ABuffer, 0, 0);
+    commandEncoder.dispatch({
+        width: 2,
+        height: 3,
+        depth: 4,
+    }, {
+        width: 5,
+        height: 6,
+        depth: 7,
+    });
+    commandEncoder.endEncoding();
+
+    let promise = commandBuffer.completed;
+    commandBuffer.commit();
+
+    await promise;
+
+    A = new Float32Array(ABuffer.contents);
+    let expects = [
+        2 * 5 - 1,
+        3 * 6 - 1,
+        4 * 7 - 1,
+        5 - 1,
+        6 - 1,
+        7 - 1,
+        5 * 6 * 7 - 1,
+        2 - 1,
+        3 - 1,
+        4 - 1,
+        2 * 5,
+        3 * 6,
+        4 * 7,
+        5,
+        6,
+        7,
+        2,
+        3,
+        4,
+        32
+    ];
+    for (let i = 0; i < 20; i++) playground.print(`A[${i}] = ${A[i]}`);
+    for (let i = 0; i < 20; i++) {
+        if (A[i] !== expects[i]) throw new Error(`Assertion failed: A[${i}](=${A[i]}) !== ${expects[i]}`);
+    }
+
+    return promise;
+});
+
+registerTest('thread_position_qualifier2', async playground => {
+    let webgpu = document.createElement('canvas').getContext('webgpu');
+    if (!webgpu) throw new Error('WebGPURenderingContext initialization failed.');
+
+    let library = webgpu.createLibrary(`
+#include <metal_stdlib>
+using namespace metal;
+
+kernel void copy(const device float *A[[buffer(0)]],
                  device float *B[[buffer(1)]],
                  uint gid[[thread_position_in_grid]],
-                 uint num_threads[[threads_per_grid]]) 
+                 uint num_threads[[threads_per_grid]])
 {
     for (uint i = gid; i < 4096; i += num_threads)
     {
