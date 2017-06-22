@@ -10,10 +10,13 @@
 
 <section>
     <div class="container">
-        <h1>WebGPU(WebMetal) Computing Shader Debug Tool</h1>
+        <div class="row">
+            <div class="col-12">
+                <h1>WebGPU(WebMetal) Computing Shader Debug Tool</h1>
+            </div>
+        </div>
     </div>
 </section>
-
 
 <section>
     <div class="container">
@@ -30,7 +33,6 @@
         </div>
     </div>
 </section>
-
 
 <section>
     <div class="container">
@@ -49,7 +51,6 @@
     </div>
 </section>
 
-
 <section>
     <div class="container">
         <div class="row">
@@ -66,7 +67,6 @@
         </div>
     </div>
 </section>
-
 
 <section>
     <div class="container">
@@ -85,7 +85,6 @@
     </div>
 </section>
 
-
 <section>
     <div class="container">
         <div class="row">
@@ -102,7 +101,6 @@
         </div>
     </div>
 </section>
-
 
 <section>
     <div class="container">
@@ -121,6 +119,54 @@
     </div>
 </section>
 
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="copy_kernel">
+                <p>Dispatch a Kernel which copy a device memory to another device memory</p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="thread_position_qualifier">
+                <p>Dispatch a Kernel which use <code>[[thread_position_in_grid]]</code> and
+                    <code>[[threads_per_grid]]</code> argument qualifiers, like this</p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="memory_barrier">
+                <p>Dispatch a Kernel which use <code>threadgroup_barrier</code> to sync all threads in threadgroup</p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 </body>
 
