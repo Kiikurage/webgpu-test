@@ -1,0 +1,14 @@
+@import "./stylus/bootstrap.scss";
+@import "~bootstrap/scss/mixins/_breakpoints";
+@import "./stylus/playground";
+
+section {
+  padding-top: 32px;
+  padding-bottom: 32px;
+
+  @include media-breakpoint-down(md) {
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+}
+

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <meta name="theme-color" content="#4d90fe">
+    <title>WebGPU(WebMetal) Computing Shader Debug Tool</title>
+</head>
+<body>
+
+<section>
+    <div class="container">
+        <h1>WebGPU(WebMetal) Computing Shader Debug Tool</h1>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="browser_support">
+                <p>Check if <code>WebGPURenderingContext</code> and related component is supported or not.</p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="simplest_kernel_1">
+                <p>Dispatch the simplest kernel like <code>kernel void noop(){}</code> with grid size
+                    <code>(1, 1, 1)</code> and threadgroup size <code>(1, 1, 1)</code></p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="simplest_kernel_2">
+                <p>Dispatch the simplest kernel like <code>kernel void noop(){}</code> with grid size
+                    <code>(1, 1, 1)</code> and threadgroup size <code>(8, 1, 1)</code></p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="simplest_kernel_3">
+                <p>Dispatch the simplest kernel like <code>kernel void noop(){}</code> with grid size
+                    <code>(1, 1, 1)</code> and threadgroup size <code>(8, 8, 1)</code></p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="simplest_kernel_4">
+                <p>Dispatch the simplest kernel like <code>kernel void noop(){}</code> with grid size
+                    <code>(1, 1, 1)</code> and threadgroup size <code>(8, 8, 8)</code></p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 Playground" data-test="simplest_kernel_5">
+                <p>Dispatch the simplest kernel like <code>kernel void noop(){}</code> with grid size
+                    <code>(8, 1, 1)</code> and threadgroup size <code>(1024, 1, 1)</code></p>
+                <header class="Playground-Header">
+                    <button class="btn btn-primary Playground-Run">RUN</button>
+                </header>
+                <div class="Playground-LogContainer">
+                    <pre class="Playground-Log"></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+</body>
+
+</html>

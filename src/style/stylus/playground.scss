@@ -1,0 +1,49 @@
+.Playground {
+  padding: 16px 16px;
+}
+
+.Playground-Header {
+  margin: 8px 0;
+}
+
+.Playground-LogContainer {
+  position: relative;
+  height: 120px;
+  overflow: auto;
+  box-sizing: border-box;
+  background: #000;
+  color: #fff;
+}
+
+.Playground-Log {
+  color: #fff;
+  padding: 8px 16px;
+}
+
+.Playground-result-success {
+  background: #cfc;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: darken(#cfc, 50);
+    color: #fff;
+    padding: 8px 16px;
+    content: "SUCCESS";
+  }
+}
+
+.Playground-result-failed {
+  background: #fcc;
+
+  &:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: darken(#fcc, 50);
+    color: #fff;
+    padding: 8px 16px;
+    content: "FAILED";
+  }
+}
